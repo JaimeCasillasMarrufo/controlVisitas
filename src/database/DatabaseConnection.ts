@@ -1,5 +1,6 @@
 import { DataSource, ObjectLiteral, EntityTarget, Repository } from 'typeorm';
-import Guardia from '../src/models/entities/Guardia';
+import Guardia from '../models/entities/Guardia';
+//import Turno from '../models/entities/Turno';
 
 export default class DatabaseConnection {
     private dataSource: DataSource;
@@ -15,7 +16,7 @@ export default class DatabaseConnection {
             password: 'admin123',
             database: 'caseta_vigilancia',
             synchronize: true,
-            entities: [Guardia, Turno]
+            entities: [Guardia]
         });
     }
 
