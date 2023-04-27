@@ -9,11 +9,11 @@ export default class Guardia {
     @Column({ type: 'varchar', length: 20, nullable: false, unique: true })
     public nombre: string;
 
-    @Column({ type: 'varchar', length: 32, nullable: false })
-    public turno: string;
-
     @Column({ type: 'varchar', nullable: false })
     public password: string;
+
+    @Column({ type: 'varchar', length: 32, nullable: false })
+    public turno: string;
 
     @Column({ type: 'datetime', nullable: false })
     public fechaCreacion: Date;
