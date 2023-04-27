@@ -12,6 +12,9 @@ export default class Guardia {
     @Column({ type: 'varchar', length: 32, nullable: false })
     public turno: string;
 
+    @Column({ type: 'varchar', nullable: false })
+    public password: string;
+
     @Column({ type: 'datetime', nullable: false })
     public fechaCreacion: Date;
 
@@ -21,12 +24,14 @@ export default class Guardia {
     private constructor(
         id: number | undefined,
         nombre: string,
+        password: string,
         turno: string,
         fechaCreacion: Date,
         fechaActualizacion: Date
     ) {
         this.id = <number>id;
         this.nombre = nombre;
+        this.password= password;
         this.turno = turno;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
@@ -34,6 +39,7 @@ export default class Guardia {
 
     public static async registrar(
         nombreGuardia: string,
+        password:string,
         turno: string,
     ): Promise<Guardia> {
         const repositorioGuardias = await this.obtenerRepositorioGuardias();
@@ -43,9 +49,10 @@ export default class Guardia {
         const guardia = new Guardia(
             undefined,
             nombreGuardia,
+            password,
             turno,
             fechaCreacion,
-            fechaCreacion
+            fechaCreacion     
         );
 
         try {

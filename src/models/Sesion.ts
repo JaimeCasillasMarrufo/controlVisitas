@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import HttpStatusCodes from 'http-status-codes';
 import Guardia from './entities/Guardia';
+import jwt from 'jsonwebtoken';
 
 export default class Sesion {
     public tokenSesion: string;
