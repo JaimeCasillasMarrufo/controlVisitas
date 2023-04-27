@@ -62,7 +62,7 @@ export default class Guardia {
     }
 
     public static async buscarPorNombreUsuarioYPassword(
-        nombreGuardia: string,
+        nombre: string,
         turno: string
     ): Promise<Guardia> {
         const repositorioGuardias = await this.obtenerRepositorioGuardias();
