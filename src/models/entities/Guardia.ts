@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, Repository, QueryFailedError } from 'typeorm';
-import DatabaseConnection from '/database/DatabaseConnection';
+import DatabaseConnection from '../../database/DatabaseConnection';
 
 @Entity({ name: 'guardias' })
-export default class Usuario {
+export default class Guardia {
     @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
     public id: number;
 
@@ -20,80 +20,76 @@ export default class Usuario {
 
     private constructor(
         id: number | undefined,
-        nombreUsuario: string,
-        password: string,
-        nombreCompleto: string,
+        nombre: string,
+        turno: string,
         fechaCreacion: Date,
         fechaActualizacion: Date
     ) {
         this.id = <number>id;
-        this.nombreUsuario = nombreUsuario;
-        this.password = password;
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombre;
+        this.turno = turno;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
     }
 
     public static async registrar(
-        nombreUsuario: string,
-        password: string,
-        nombreCompleto: string
-    ): Promise<Usuario> {
-        const repositorioUsuarios = await this.obtenerRepositorioUsuarios();
+        nombreGuardia: string,
+        turno: string,
+    ): Promise<Guardia> {
+        const repositorioGuardias = await this.obtenerRepositorioGuardias();
 
         const fechaCreacion = new Date();
 
-        const usuario = new Usuario(
+        const guardia = new Guardia(
             undefined,
-            nombreUsuario,
-            password,
-            nombreCompleto,
+            nombreGuardia,
+            turno,
             fechaCreacion,
             fechaCreacion
         );
 
         try {
-            await repositorioUsuarios.save(usuario);
+            await repositorioGuardias.save(guardia);
         } catch (e) {
             if (e instanceof QueryFailedError && e.message.includes('ER_DUP_ENTRY')) {
-                throw new Error('ErrorNombreUsuarioDuplicado');
+                throw new Error('ErrorNombreGuardiaDuplicado');
             }
 
             throw e;
         }
 
-        return usuario;
+        return guardia;
     }
 
     public static async buscarPorNombreUsuarioYPassword(
-        nombreUsuario: string,
-        password: string
-    ): Promise<Usuario> {
-        const repositorioUsuarios = await this.obtenerRepositorioUsuarios();
+        nombreGuardia: string,
+        turno: string
+    ): Promise<Guardia> {
+        const repositorioGuardias = await this.obtenerRepositorioGuardias();
 
-        const usuario = await repositorioUsuarios.findOneBy({ nombreUsuario, password });
+        const guardia = await repositorioGuardias.findOneBy({ nombre, turno });
 
-        if (!usuario) {
-            throw new Error('ErrorUsuarioNoEncontrado');
+        if (!guardia) {
+            throw new Error('ErrorGuardiaNoEncontrado');
         }
 
-        return usuario;
+        return guardia;
     }
 
-    public static async buscarPorId(id: number): Promise<Usuario> {
-        const repositorioUsuarios = await this.obtenerRepositorioUsuarios();
+    public static async buscarPorId(id: number): Promise<Guardia> {
+        const repositorioGuardia = await this.obtenerRepositorioGuardias();
 
-        const usuario = await repositorioUsuarios.findOneBy({ id });
+        const guardia = await repositorioGuardia.findOneBy({ id });
 
-        if (!usuario) {
-            throw new Error('ErrorUsuarioNoEncontrado');
+        if (!guardia) {
+            throw new Error('ErrorGuardiaNoEncontrado');
         }
 
-        return usuario;
+        return guardia;
     }
 
-    private static async obtenerRepositorioUsuarios(): Promise<Repository<Usuario>> {
+    private static async obtenerRepositorioGuardias(): Promise<Repository<Guardia>> {
         const databaseConnection = await DatabaseConnection.getConnectedInstance();
-        return databaseConnection.getRepository(Usuario);
+        return databaseConnection.getRepository(Guardia);
     }
 }
