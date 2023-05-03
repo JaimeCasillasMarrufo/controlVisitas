@@ -1,4 +1,4 @@
-import SelectorDeControlador from "./SelectorDeControlador";
+import Controller from "./Controller";
 import HttpStatusCodes from 'http-status-codes';
 import { Request, Response,Application } from "express";
 import Guardia from "../models/entities/Guardia";
@@ -16,7 +16,7 @@ interface InicioSesionBody{
 }
 
 
-export default class AuthenticationController extends SelectorDeControlador{
+export default class GuardiasController extends Controller{
     protected initializeRouter(): void {
         this.router.post('/registro', this.registroGuardia);
         this.router.post('/iniciarSesion', this.inicioSesion);
@@ -76,8 +76,8 @@ export default class AuthenticationController extends SelectorDeControlador{
         
 
     }
-    public static mount(app: Application): AuthenticationController {
-        return new AuthenticationController(app, '/auth');
+    public static mount(app: Application): GuardiasController {
+        return new GuardiasController(app, '/guardias');
     }
 
 

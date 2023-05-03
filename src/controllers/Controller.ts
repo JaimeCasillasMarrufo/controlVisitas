@@ -1,6 +1,6 @@
 import { Application, Router } from 'express';
 
-export default abstract class SelectorDeControlador {
+export default abstract class Controller {
     protected router: Router;
 
     protected constructor(app: Application, basePath: string) {
